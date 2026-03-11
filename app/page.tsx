@@ -116,11 +116,6 @@ export default function Home() {
               the game.
             </p>
           </div>
-          <div className="bento-card tall">
-            <div className="bento-phone">
-              <Image src="/images/paused.png" alt="Pause menu with playlist controls" width={200} height={433} />
-            </div>
-          </div>
           <div className="bento-card wide">
             <span className="bento-label">Discovery</span>
             <h3>Skip through the chorus of every song</h3>
