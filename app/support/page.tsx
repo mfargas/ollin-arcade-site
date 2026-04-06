@@ -1,9 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Support — Ollin Arcade",
-  description: "Get help with Ollin Arcade. FAQs, troubleshooting, and contact info.",
+  description:
+    "Get help with Ollin Arcade. FAQs on connecting Apple Music, selecting playlists, saving songs, and troubleshooting the iOS music game.",
+  alternates: {
+    canonical: "https://ollinarcade.fun/support",
+  },
 };
 
 const faqs = [
@@ -29,9 +34,32 @@ const faqs = [
   },
 ];
 
+function FaqJsonLd() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.a,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
 export default function Support() {
   return (
     <>
+      <FaqJsonLd />
       <a href="#main" className="skip-link">Skip to content</a>
 
       <nav className="nav" aria-label="Main navigation">
@@ -43,7 +71,7 @@ export default function Support() {
           <li><Link href="/#games">Games</Link></li>
           <li><Link href="/#features">Features</Link></li>
           <li>
-            <Link className="nav-cta" href="/#download">Download</Link>
+            <a className="nav-cta" href="https://apps.apple.com/ca/app/ollin-arcade/id6760328332" target="_blank" rel="noopener noreferrer">Download</a>
           </li>
         </ul>
       </nav>
@@ -61,9 +89,9 @@ export default function Support() {
 
           <section className="prose-section" aria-labelledby="faq-heading">
             <h2 id="faq-heading">Frequently asked questions</h2>
-            <div className="faq-list" role="list">
+            <div className="faq-list">
               {faqs.map((faq, i) => (
-                <details key={i} className="faq-item" role="listitem">
+                <details key={i} className="faq-item">
                   <summary className="faq-question">{faq.q}</summary>
                   <p className="faq-answer">{faq.a}</p>
                 </details>
@@ -71,8 +99,8 @@ export default function Support() {
             </div>
           </section>
 
-          <section className="prose-section">
-            <h2>Still stuck?</h2>
+          <section className="prose-section" aria-labelledby="contact-heading">
+            <h2 id="contact-heading">Still stuck?</h2>
             <p>
               Send us an email at{" "}
               <a href="mailto:support@ollinlabs.io" className="prose-link">
@@ -98,7 +126,7 @@ export default function Support() {
           <Link href="/privacy" className="footer-link">Privacy</Link>
         </nav>
         <span className="footer-copy mono">
-          &copy; {new Date().getFullYear()} Ollin Arcade
+          &copy; {new Date().getFullYear()} Ollin Labs LLC
         </span>
       </footer>
     </>
